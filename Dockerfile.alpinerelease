@@ -1,0 +1,3 @@
+FROM alpine
+COPY ./bin/ /
+ENTRYPOINT ["sh", "-c", "[ -e /tty ] && exec /sl &> /tty || echo 'run with -v $(tty):/tty'"]

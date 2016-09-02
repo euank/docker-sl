@@ -1,0 +1,14 @@
+FROM alpine:3.1
+RUN mkdir /build
+WORKDIR /build
+RUN apk update
+RUN apk add gcc make
+RUN apk add ncurses-dev
+RUN apk add musl-dev
+RUN apk add patch
+COPY ./sl.tar ./sl5-1.patch ./sl5-2.patch ./
+RUN tar xvf sl.tar
+RUN patch -p0 <sl5-1.patch
+RUN patch -p1 <sl5-2.patch
+RUN cd sl && make
+CMD cp ./sl/sl /out && mkdir -p /out/etc/terminfo/x && cp /etc/terminfo/x/xterm /out/etc/terminfo/x/xterm
